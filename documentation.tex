@@ -1,0 +1,380 @@
+\input mathex
+\setscalefactor{10}
+
+\catcode`\@=11
+
+\let\@xp=\expandafter
+\font\sc = cmcsc9
+
+\def\fakebold#1{\pdf@literal{2 Tr .3 w}#1\pdf@literal{0 Tr 1 w}}
+\def\begincenter{\bgroup\leftskip=0pt plus 1fill \rightskip=\leftskip}
+\def\endcenter{\par\egroup}
+
+\def\flip#1{{\setbox0=\hbox{#1}\kern\wd0\pdf@literal{q -1 0 0 1 0 0 cm}\rlap{#1}\pdf@literal{Q}}}
+
+\font\sevenrm = cmr7
+\def\MatheX{Math\kern-.1ex\lower .6ex\hbox {E}\kern -.125emX}
+\def\xetex{X\kern-.125em\lower.5ex\hbox{\flip{E}}\kern-.1667em\TeX}
+\def\LaTeX{L\kern-.36em{\setbox0=\hbox{T}\vbox to\ht0{\hbox{\sevenrm A}\vss}}\kern-.15em\TeX}
+
+\def\fontuse{\afterassignment\@@ \font\@@}
+\def\scalefont{\fontuse \curr@font scaled }
+
+\def\title#1{\leavevmode\vskip.1\vsize\centerline{\fontuse cmcsc10 scaled 5000 \fakebold{#1}}\bigskip}
+
+\newcount\c@section
+\newcount\c@subsection
+\def\section#1{\bigskip\advance\c@section by 1 \c@subsection=0 \bgroup\fontuse cmbx10 scaled 2000 \the\c@section. #1\par\bigskip\egroup}
+\def\subsection#1{\medskip\advance\c@subsection by 1 \bgroup\fontuse cmbx10 scaled 1500 \the\c@section.\the\c@subsection. #1\par\medskip\egroup}
+
+\chardef\fslash=`\/
+{\catcode`\^^M=\active%
+\gdef\begincode{%
+    \bgroup\everypar={}%
+    \medskip%
+    \setbox0=\vbox\bgroup%
+    \global\dimen69=0pt%
+    \tt%
+    \catcode`\^^M=\active%
+    \def^^M{\egroup\ifnum\wd1>\dimen69 \global\dimen69=\wd1\fi\copy1\setbox1=\hbox\bgroup}%
+    \catcode`\ =\active%
+    \catcode`\{=12%
+    \catcode`\}=12%
+    \catcode`\/=0%
+    \catcode`\$=12%
+    \catcode`\\=12%
+    \catcode`\%=12 \setbox1=\hbox\bgroup}}
+\def\endcode{%
+    \egroup\egroup%
+    \hfil\hbox to \dimen69{\box0}\hfil\par%
+    \medskip%
+    %\let\@par=\par%
+    \egroup%
+}
+
+\def\icode{\bgroup\tt%
+    \catcode`\ =\active%
+    \catcode`\/=0%
+    \catcode`\{=12%
+    \catcode`\}=12%
+    \catcode`\$=12%
+    \catcode`\\=12%
+}
+\def\eicode{\egroup}
+
+{\catcode`\<=\active 
+\gdef\macrousage{\bgroup\setbox0=\hbox\bgroup\tt%
+    \catcode`\ =\active%
+    \catcode`\/=0%
+    \catcode`\{=12%
+    \catcode`\}=12%
+    \catcode`\$=12%
+    \catcode`\\=12%
+    \catcode`\<=\active%
+    \def<##1>{$\langle${\it ##1}$\rangle$}%
+}}
+\def\emacrousage{\egroup\par\smallskip\centerline{\box0}\egroup\par\smallskip}
+\def\emacrousageB{\egroup\box0\egroup}
+
+\def\macroname#1{{\tt\string#1}}
+
+\chardef\lbrace="7B
+\chardef\rbrace="7D
+
+\def\macroexp#1{\par\smallskip\bgroup\leftskip=1cm\leavevmode\kern-1cm\macrousage \scantokens{#1}\emacrousageB:}
+\def\emacroexp{\par\egroup\smallskip}
+
+\def\showcase#1#2{{\openup3\jot\halign{\tt\hskip 1cm\string##\hfil&\quad\hfil##\cr
+    \omit\tt\string#1: & $\displaystyle#1$\cr\noalign{\kern3pt\hrule\kern3pt}
+    \displaystyle & $\displaystyle #2$\cr
+    \textstyle & $\textstyle #2$\cr
+    \scriptstyle & $\scriptstyle #2$\cr
+    \scriptscriptstyle & $\scriptscriptstyle #2$\cr}
+}}
+
+\def\showcasevecc#1#2#3{\hbox to\hsize{\hss\vbox{\tabskip=5pt\openup3\jot%
+\halign{\tt\hskip 1cm\string##\tabskip=0pt\hfil&\quad##\hfil&\quad\hfil##\tabskip=5pt\cr
+    \omit\tt\string#1: & \tt\string#1 & \tt\expandafter\string\csname short\m@strip#1\endcsname%
+    \cr\noalign{\kern3pt\hrule\kern3pt}
+    \displaystyle      & $\displaystyle #2$      & $\displaystyle #3$\cr
+    \textstyle         & $\textstyle #2$         & $\textstyle #3$\cr
+    \scriptstyle       & $\scriptstyle #2$       & $\scriptstyle #3$\cr
+    \scriptscriptstyle & $\scriptscriptstyle #2$ & $\scriptscriptstyle #3$\cr}
+}\hss}\bigskip}
+
+\def\showcasearrow#1#2#3#4{\hbox to\hsize{\hss\vbox{\tabskip=5pt\openup3\jot
+\halign{\tt\hskip 1cm\string##\tabskip=0pt\hfil&\quad##\hfil&\quad\hfil##\hfil\quad&\quad\hfil##\tabskip=5pt\cr
+    \omit\tt\string#1: & \tt\string#1 & \tt\expandafter\string\csname long\m@strip#1\endcsname &
+    \tt\expandafter\string\csname x\m@strip#1\endcsname\cr\noalign{\kern3pt\hrule\kern3pt}
+    \displaystyle      & $\displaystyle #2$      & $\displaystyle #3$        & $\displaystyle #4$\cr
+    \textstyle         & $\textstyle #2$         & $\textstyle #3$           & $\textstyle #4$\cr
+    \scriptstyle       & $\scriptstyle #2$       & $\scriptstyle #3$         & $\scriptstyle #4$\cr
+    \scriptscriptstyle & $\scriptscriptstyle #2$ & $\scriptscriptstyle #3$   & $\scriptscriptstyle #4$\cr}
+}\hss}\bigskip}
+
+\def\showcaseaccent#1#2{{\openup3\jot\halign{\tt\hskip 1cm\string##\hfil&\quad\hfil##\cr
+    \omit\tt\string#1: & \cr\noalign{\kern3pt\hrule\kern3pt}
+    \displaystyle & $\displaystyle #2$\cr
+    \textstyle & $\textstyle #2$\cr
+    \scriptstyle & $\scriptstyle #2$\cr
+    \scriptscriptstyle & $\scriptscriptstyle #2$\cr}
+}}
+
+\parindent=0pt
+\parskip=3pt
+\hoffset=\dimexpr 2cm - 1in \relax
+\advance\hsize by -2\hoffset
+\voffset=2\hoffset
+\advance\vsize by -2\voffset
+
+\nopagenumbers
+\title{\MatheX}
+\centerline{\it S. Lurp}
+\centerline{\it October, 2022}
+
+\bigskip
+\hbox to \hsize{\hss\vbox{\hsize=.7\hsize
+\hrule
+\smallskip
+\begincenter
+The \MatheX{} package was created as an extension to the math macros provided by \TeX{} and \LaTeX{}.
+It provides more obscure symbols not found in popular preexisting and reimpliments macros which were viewed as flawed.
+
+A big part of the package was implemented through \macroname\pdfliteral s and other {\sc pdf} primitives.
+So the \MatheX{} package is intended for use with {\sc pdf}\TeX, Lua\TeX, \xetex, and their \LaTeX{} counterparts.
+Unfortunately, some macros are not supported by \xetex.
+\endcenter
+\smallskip
+\hrule
+}\hss}
+
+\vfill\break
+
+\footline={\hfil\folio\hfil}
+\section{An Introduction to \MatheX{}}
+
+The main motivator for creating \MatheX{} was \TeX's poor implementation of the \macroname\overrightarrow{} macro which many
+times yields unsavory results.
+For example \icode \overrightarrow{\hbox{ABC}}/eicode{} yields:
+
+$$ \overrightarrow{\hbox{ABC}} $$
+
+As you can see, the arrow overlaps with the {\tt ABC} which is undesirable.
+This can be fixed by altering the \macroname\rightarrow{} macro, but I decided to make a more versatile alternative.
+The \MatheX{} alternative, \macroname\vecc{}, on the other hand yields:
+
+$$ \vecc{\hbox{ABC}} $$
+
+Along with a few other features, \MatheX{} provides a simple interface for creating your own style of arrows.
+
+\MatheX{} requires the current font size in order to properly scale its symbols, which must be provided after
+{\tt\string\input}ing {\tt mathex.tex}.
+This can be done with the \macroname\setscalefactor{} macro.
+If your font is 12pt then you can load \MatheX{} like so:
+
+\begincode
+\input mathex
+\setscalefactor{12}
+/endcode\par
+
+It is {\it imperative} that you set the scale factor after loading {\tt mathex} as otherwise almost none of the macros will
+work.
+
+\section{The Predefined Symbols}
+
+This section will simply be an exhaustive list of all the predefined symbols \MatheX{} provides.
+
+\subsection{Math Symbols}
+
+{\tabskip=10pt plus 5pt minus 5pt\openup3\jot\halign to \hsize{{\hsize=.45\hsize#}\hfil&\hfil{\hsize=.45\hsize#}\cr
+\vbox{\showcase\gprod{A\gprod B}}                       & \vbox{\showcase\dcup{A\dcup B}}\cr
+\vbox{\showcase\biggprod{A\gprod\biggprod_{n=1}^N B_n}} & \vbox{\showcase\bigdcup{A\dcup\bigdcup_{n=1}^N B_n}}\cr
+\noalign{\vfil\break}
+\vbox{\showcase\aint{f(x) + \aint_a^b g(x)\, dx}}       & \vbox{\showcase\divs{n\divs m}}\cr
+\vbox{\showcase\ndivs{n\ndivs m}}                       & \cr}}
+
+Additionally, \macroname\lightning{} is provided as a textmode command and renders \lightning.
+
+\subsection{Vector Symbols}
+
+Each vector comes as a pair: the normal form and the short form.
+The normal form is meant to cover longer material while the short form covers shorter material.
+
+\bigskip
+\showcasevecc\vecc{\vecc{\hbox{ABC}}}{\shortvecc{a}}
+\showcasevecc\lvecc{\lvecc{\hbox{ABC}}}{\shortlvecc{a}}
+\showcasevecc\overrightharp{\overrightharp{\hbox{ABC}}}{\shortoverrightharp{a}}
+\vfill\break
+\showcasevecc\overleftharp{\overleftharp{\hbox{ABC}}}{\shortoverleftharp{a}}
+\showcasevecc\oveleftrrightvecc{\overleftrightvecc{\hbox{ABC}}}{\shortoverleftrightvecc{a}}
+\showcasevecc\oveleftrrightharp{\overleftrightharp{\hbox{ABC}}}{\shortoverleftrightharp{a}}
+\showcasevecc\overrightleftharp{\overrightleftharp{\hbox{ABC}}}{\shortoverrightleftharp{a}}
+\showcasevecc\straightvecc{\straightvecc{\hbox{ABC}}}{\shortstraightvecc{a}}
+\showcasevecc\straightlvecc{\straightlvecc{\hbox{ABC}}}{\shortstraightlvecc{a}}
+
+\unless\ifx\pdfxform\undefined
+The \macroname\constvec{} macro has the following usage:
+\macrousage \constvec<vector macro>{<material>} /emacrousage
+And it centers the {\tt vector macro} above {\tt material} as if it had the same height as {\tt x}, cropping anything above
+that height.
+So for example \icode \constvec\vecc{abc}/eicode{} yields $\constvec\vecc{abc}$.
+This macro cannot be used in \xetex.
+\fi
+\subsection{Arrow Symbols}
+
+Each arrow comes as a triplet: the normal form, the long form, and the extendable form.
+The extendable form is similar to \macroname\xrightarrow{} and friends, an extendable arrow has the following use:
+\macrousage \xarrow{<top material>}[<bottom material>] /emacrousage
+And creates an extended arrow to fit both the top and bottom material.
+
+\bigskip
+\showcasearrow\varrightarrow{A\varrightarrow B}{A\longvarrightarrow B}{A\xvarrightarrow{ABC}[abc] B}
+\showcasearrow\varleftarrow{A\varleftarrow B}{A\longvarleftarrow B}{A\xvarleftarrow{ABC}[abc] B}
+\showcasearrow\varrightharp{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
+\showcasearrow\varleftharp{A\varleftharp B}{A\longvarleftharp B}{A\xvarleftharp{ABC}[abc] B}
+\showcasearrow\varleftrightarrow{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
+\showcasearrow\varleftrightharp{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
+\showcasearrow\varrightleftharp{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
+\showcasearrow\varmapsto{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
+
+\subsection{Wide Accents}
+{\tabskip=20pt plus 10pt minus 5pt\halign{{\hsize=.45\hsize#}\hfil&\hfil{\hsize=.45\hsize#}\cr
+\vbox{\showcaseaccent\varwidehat{\varwidehat{A}}} & \vbox{\showcaseaccent\varwidecheck{\varwidecheck{ABC}}}\cr}}
+\bigskip
+\macroname\varwidetilde{} is also provided, but it is only supported in 10pt fonts: $\varwidetilde{ABC}$.
+
+\unless\ifx\pdfxform\undefined
+\subsection{Extendable Operators}
+Extendible operators extend to the width of the material in their limits.
+These operators should only be used in display mode, since they use the display modes of the operators.
+They are \macroname\suum{} and \macroname\prood{}:
+
+$$ \suum_{\hbox{abcdef}}^{\hbox{ABCDEF}} \qquad \prood_{\hbox{abcdef}}^{\hbox{ABCDEF}} $$
+
+These are not available in \xetex.
+\fi
+
+\section{Defining Your Own Symbols}
+
+\MatheX{} provides an interface for creating your own mathematical symbols through the use of \macroname\pdfliteral s.
+This interface requires prior knowledege of drawing with PDFs.
+
+\macroexp{\@linehead@type{<pdf code>}{<width>}} This creates a ``linehead'' which is used to cap lines, like
+\macroname\@rarrow{} ($\@rarrow{.4}{2.5}$).
+{\it pdf code} is the actual code used to draw the symbol, and it should be noted that all necessary transformations to the
+linehead are done by \macroname\@linehead@type{} and should not be included in the code.
+This includes the setting of the width and transforming the coordinate system.
+The {\it width} is the width of the drawing of the {\it pdf code}.
+
+This macro actually accepts more parameters, but they're used internally and therefore aren't necessary to explain.
+Therefore the only use this macro should be for is defining line heads.
+For example, the definition of \macroname\@rarrow{} is:
+\begincode
+\def\@rarrow {\@linehead@type{0 0 m 2 0 l 1 0 0 1 0 1.5 c 2 0 m 1 0 0 -1 0 -1.5 c S}{2}}
+/endcode
+
+The predefine lineheads are
+\icode \@rarrow, \@larrow, \@rharp, \@lharp, \@rdharp, \@rlharp, \@mapcap, \@rsarrow, \@lsarrow/eicode.
+\emacroexp
+
+\macroexp{\@vecc@def{<vector name>}<left cap><right cap>} This creates a vector macro, like \macroname\vecc.
+This creates both the normal and short variations of the vector.
+For example, the definition of the {\tt vecc} vectors is:
+\begincode
+\@vecc@def{vecc}\@linecap\@rarrow
+/endcode
+\emacroexp
+
+\macroexp{\@arrow@def{<arrow name>}<left cap><right cap>} This creates an arrow macro, like \macroname\varrightarrow.
+This creates the normal, long, and extendable versions of the arrow.
+For example, the definition of the {\it varrightarrow} vectors is:
+\begincode
+\@arrow@def{varrightarrow}\@linecap\@rarrow
+/endcode
+\emacroexp
+
+\macroexp{\@wide@accent{<pdf code>}} This creates a wide accent, like \macroname\varwidecheck.
+The width of the drawing by the {\it pdf code} should be $1$, and it should be filled not stroked (since the accent is
+transformed to stretch over the material beneath it).
+Again this macro should only be used to define wide accents.
+For example, the definition of \macroname\varwidecheck{} is:
+\begincode
+\def\varwidecheck{\@wide@accent{0 1.3 m .5 -.4 l 1 1.3 l 1 1.6 l .5 .3 l 0 1.6 l f}}
+/endcode
+\emacroexp
+
+\macroexp{\pdf@drawing@macro{<name>}{<pdf code>}{<width>}{<height>}{<horizontal skew>}{<depth>}} This creates a text mode
+symbol like \macroname\lightning.
+It is important that the {\it pdf code} fits inside the box created by {\it width, height,\/} and {\it depth} since the
+drawing is placed inside of an XForm and so anything outside the box will be cropped.
+The {\it horizontal skew} can be used to shift the symbol so that it fits horizontally inside the box.
+For example, the definition of \macroname\lightning{} is:
+\begincode
+\pdf@drawing@macro{lightning}       % The lightning symbol is drawn upright
+    {.86603 -.5 .5 .86603 0 0 cm    % and rotated 30 degrees
+    1 J 1 j .6 w
+    -3 10 m -3 4.133975 l 0 5.866025 l 0 0 l -1.125 1.5 l 0 0 l 1.125 1.5 l S}
+    {4.2pt}{10.5pt}{.5pt}{.9pt}
+/endcode
+\emacroexp
+
+\macroexp{\pdf@drawing@math@macro{<name>}{<pdf code>}{<width>}{<height>}{<skew>}{<depth>}<style scaling>} This creates a math
+mode symbol like \macroname\divs.
+The first few parameters are identical in use as \macroname\pdf@drawing@macro's, and {\it style scaling} is used to set the
+scaling for the symbol in different math styles.
+{\it style scaling} should be three groups: the first group is the scaling used in textstyle, the second in scriptstyle, and
+the third in scriptscriptstyle.
+Each of these scalings should consist of two components: the fractional scaling and the decimal scaling.
+So for example if we'd like to scale it by $0.6$ the scaling would be \icode {{6 /fslash 10}{0.6}}/eicode.
+This is necessary since \macroname\dimexpr{} doesn't play with decimals nicely, but \macroname\pdfliteral{} requires them.
+For example, the definition of \macroname\divs{} is:
+\begincode
+\pdf@drawing@math@macro{@divs}
+    {1.3 w 1 j
+    2.5 1 0 .1 re
+    2.5 5 0 .1 re
+    2.5 9 0 .1 re B}
+    {5.4pt}{10pt}{0pt}{.2pt}
+    {{1}{1}}{{7 /fslash 10}{.7}}{{11 /fslash 20}{.55}}
+\def\divs{\mathrel{\@divs}}     % Make divs a relation
+/endcode
+\emacroexp
+
+\macroexp{\putsym{<main symbol>}{<secondary symbol>}} This centers the {\it secondary symbol} over the {\it main symbol}, and
+can be used to create symbols like \macroname\aint.
+Note that doing this creates a symbol which acts like an Ord on the left side and whatever type of atom {\it main symbol} is
+on the right (glue-wise).
+So it may be necessary to add some math atom ``hackery'' around the \macroname\putsym{} in order to get the target glue.
+For example, the definition of \macroname\aint{} is:
+\begincode
+\def\aint{\mathop{}\mathclose{}\putsym\int-}
+/endcode
+The \icode \mathop{}\mathclose{}/eicode{} makes it act like an Op on the left (the \macroname\mathclose{} removes any glue
+added on the right of the \macroname\mathop).
+Usually the definition is simpler, but this is slightly more complicated since \macroname\int{} has specially placed limits.
+Another example, this time the definition of \macroname\bigdcup{} is:
+\begincode
+\def\bigdcup{\mathop{\putsym\bigcup\cdot}}
+/endcode
+\emacroexp
+
+\unless\ifx\pdfxform\undefined
+\macroexp{\@wide@operator{<name>}<operator>{<first cut>}{<second cut>}} This creates an extendable operator of {\it operator}
+whose name is {\it name}, like \macroname\suum.
+{\it first cut} is a decimal value which is where on the width of {\it operator} to make the first slice, and similar for
+{\it second cut}.
+The extendable part of the new operator is the area between the two cuts.
+For example, the definition of \macroname\suum{} is:
+\begincode
+\@wide@operator{suum}\sum{.52}{.6}
+/endcode
+You can see where the slices are for a wide operator using the \macroname\@show@slices{} macro, for example
+\begincode
+\@show@slices{suum}
+/endcode
+gives:
+$$ \@show@slices{suum} $$
+These macros are not available for \xetex.
+\emacroexp
+\fi
+\end
