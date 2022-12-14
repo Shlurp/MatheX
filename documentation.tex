@@ -102,7 +102,7 @@
     \scriptscriptstyle & $\scriptscriptstyle #2$ & $\scriptscriptstyle #3$\cr}
 }\hss}\bigskip}
 
-\def\showcasearrow#1#2#3#4{\hbox to\hsize{\hss\vbox{\tabskip=5pt\openup3\jot
+\def\showcasearrow#1#2#3#4{\hbox to\hsize{\hss\vbox{\tabskip=0pt\openup3\jot
 \halign{\tt\hskip 1cm\string##\tabskip=0pt\hfil&\quad##\hfil&\quad\hfil##\hfil\quad&\quad\hfil##\tabskip=5pt\cr
     \omit\tt\string#1: & \tt\string#1 & \tt\expandafter\string\csname long\m@strip#1\endcsname &
     \tt\expandafter\string\csname x\m@strip#1\endcsname\cr\noalign{\kern3pt\hrule\kern3pt}
@@ -232,16 +232,20 @@ And creates an extended arrow to fit both the top and bottom material.
 \showcasearrow\varleftarrow{A\varleftarrow B}{A\longvarleftarrow B}{A\xvarleftarrow{ABC}[abc] B}
 \showcasearrow\varrightharp{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
 \showcasearrow\varleftharp{A\varleftharp B}{A\longvarleftharp B}{A\xvarleftharp{ABC}[abc] B}
-\showcasearrow\varleftrightarrow{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
-\showcasearrow\varleftrightharp{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
-\showcasearrow\varrightleftharp{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
-\showcasearrow\varmapsto{A\varrightharp B}{A\longvarrightharp B}{A\xvarrightharp{ABC}[abc] B}
+\showcasearrow\varleftrightarrow{A\varleftrightarrow B}{A\longvarleftrightarrow B}{A\xvarleftrightarrow{ABC}[abc] B}
+\showcasearrow\varleftrightharp{A\varleftrightharp B}{A\longvarleftrightharp B}{A\xvarleftrightharp{ABC}[abc] B}
+\showcasearrow\varrightleftharp{A\varrightleftharp B}{A\longvarrightleftharp B}{A\xvarrightleftharp{ABC}[abc] B}
+\showcasearrow\varmapsto{A\varmapsto B}{A\longvarmapsto B}{A\xvarmapsto{ABC}[abc] B}
+\showcasearrow\varhookrightarrow{A\varhookrightarrow B}{A\longvarhookrightarrow B}{A\xvarhookrightarrow{ABC}[abc] B}
+\showcasearrow\varhookleftarrow{A\varhookleftarrow B}{A\longvarhookleftarrow B}{A\xvarhookleftarrow{ABC}[abc] B}
+\showcasearrow\vardoublerightarrow{A\vardoublerightarrow B}{A\longvardoublerightarrow B}{A\xvardoublerightarrow{ABC}[abc] B}
+\showcasearrow\vardoubleleftarrow{A\vardoubleleftarrow B}{A\longvardoubleleftarrow B}{A\xvardoubleleftarrow{ABC}[abc] B}
 
 \subsection{Wide Accents}
 {\tabskip=20pt plus 10pt minus 5pt\halign{{\hsize=.45\hsize#}\hfil&\hfil{\hsize=.45\hsize#}\cr
 \vbox{\showcaseaccent\varwidehat{\varwidehat{A}}} & \vbox{\showcaseaccent\varwidecheck{\varwidecheck{ABC}}}\cr}}
 \bigskip
-\macroname\varwidetilde{} is also provided, but it is only supported in 10pt fonts: $\varwidetilde{ABC}$.
+\hbox to\hsize{\hfil\vbox{\tabskip=20pt plus 10pt minus 5pt\showcaseaccent\varwidetilde{\varwidetilde{ABC}}}\hfil}
 
 \unless\ifx\pdfxform\undefined
 \subsection{Extendable Operators}
@@ -274,7 +278,7 @@ For example, the definition of \macroname\@rarrow{} is:
 /endcode
 
 The predefine lineheads are
-\icode \@rarrow, \@larrow, \@rharp, \@lharp, \@rdharp, \@rlharp, \@mapcap, \@rsarrow, \@lsarrow/eicode.
+\icode \@rarrow, \@larrow, \@rharp, \@lharp, \@rdharp, \@rlharp, \@mapcap, \@rsarrow, \@lsarrow, \@backhook, \@fronthook, \@doublerarrow, \@doublelarrow/eicode.
 \emacroexp
 
 \macroexp{\@vecc@def{<vector name>}<left cap><right cap>} This creates a vector macro, like \macroname\vecc.

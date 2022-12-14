@@ -77,6 +77,10 @@
 \def\@mapcap {\@linehead@type{0 1.5 m 0 -1.5 l 0 0 m 1 0 l S}{1}}
 \def\@rsarrow{\@linehead@type{0 0 m 2 0 l 0 1 l 2 0 m 0 -1 l S}{2}}
 \def\@lsarrow{\@linehead@type{2 0 m 0 0 l 2 1 l 0 0 m 2 -1 l S}{2}}
+\def\@backhook{\@linehead@type{.5 1 m .25 1 0 .75 0 .5 c 0 .25 .25 0 .5 0 c S}{0.5}}
+\def\@fronthook{\@linehead@type{0 1 m .25 1 .5 .75 .5 .5 c .5 .25 .25 0 0 0 c S}{0.5}}
+\def\@doublerarrow{\@linehead@type{0 0 m 2 0 l 1 0 0 1 0 1.5 c 2 0 m 1 0 0 -1 0 -1.5 c 2 0 m 4 0 l 3 0 2 1 2 1.5 c 4 0 m 3 0 2 -1 2 -1.5 c S}{4}}
+\def\@doublelarrow{\@linehead@type{4 0 m 2 0 l 3 0 4 1 4 1.5 c 2 0 m 3 0 4 -1 4 -1.5 c 2 0 m 0 0 l 1 0 2 1 2 1.5 c 0 0 m 1 0 2 -1 2 -1.5 c S}{4}}
 
 \def\vecc@w{.4} \def\vecc@hw{.2}  \def\vecc@skew{2.5}
 \def\vecc@displaystyle@s{1}       \def\vecc@displaystyle@sf{1}
@@ -84,7 +88,8 @@
 \def\vecc@scriptstyle@s{.8}       \def\vecc@scriptstyle@sf{8 / 10}
 \def\vecc@scriptscriptstyle@s{.6} \def\vecc@scriptscriptstyle@sf{6 / 10}
 
-\def\@@@vecc@type#1#2#3#4#5{\mathord{\mathop{\kern\z@#1}\limits^{%
+\def\@@@vecc@type#1#2#3#4#5{%
+    \mathord{\mathop{\kern\z@#1}\limits^{%
     \mkern\vecc@skew mu%
     #2{\vecc@w}{\vecc@hw}[#4][#5]%
     \cleaders\hrule height \dimexpr \vecc@w pt * #4 * \@font@scale\relax\hfill%
@@ -168,6 +173,10 @@
 \@arrow@def{varleftrightharp}\@lharp\@rdharp
 \@arrow@def{varrightleftharp}\@ldharp\@rharp
 \@arrow@def{varmapsto}\@mapcap\@rarrow
+\@arrow@def{varhookrightarrow}\@backhook\@rarrow
+\@arrow@def{varhookleftarrow}\@larrow\@fronthook
+\@arrow@def{vardoublerightarrow}\@linecap\@doublerarrow
+\@arrow@def{vardoubleleftarrow}\@doublelarrow\@linecap
 
 \def\accent@skew{.4}
 \def\@@@wide@accent#1#2#3{{%
@@ -186,14 +195,16 @@
 
 \def\varwidecheck{\@wide@accent{0 1.3 m .5 -.4 l 1 1.3 l 1 1.6 l .5 .3 l 0 1.6 l f}}
 \def\varwidehat{\@wide@accent{0 0 m .5 .9 l 1 0 l 1 .3 l .5 1.6 l 0 .3 l f}}
-\let\@inner@widetilde=\widetilde
-%% Only works for 10pt
-\def\varwidetilde#1{{%
-    \setbox0=\hbox{$#1$}%
-    \setbox1=\hbox{$\@inner@widetilde{}$}%
-    \kern.5\wd0\pdf@literal{q \@mathex@trans/ \@nopt{\wd0 / 6} 0 0 1 0 0 cm}\widetilde{\vphantom{#1}}\pdf@literal{Q}%
-    \kern-.5\wd0#1
-}}
+\def\varwidetilde{\@wide@accent{0 0 m .25 .8 .5 .25 v .75 -1 1 .25 v 1 .45 l .75 -.3 .5 .75 v .25 1.5 0 .2 v f}}
+
+%\let\@inner@widetilde=\widetilde
+%%% Only works for 10pt
+%\def\varwidetilde#1{{%
+%    \setbox0=\hbox{$#1$}%
+%    \setbox1=\hbox{$\@inner@widetilde{}$}%
+%    \kern.5\wd0\pdf@literal{q \@mathex@trans/ \@nopt{\wd0 / 6} 0 0 1 0 0 cm}\widetilde{\vphantom{#1}}\pdf@literal{Q}%
+%    \kern-.5\wd0#1
+%}}
 
 \def\@@putsym#1#2#3{{\setbox0=\hbox{$#1#2$}\rlap{\hbox to \wd0{\hss$#1#3$\hss}}}}
 \def\@putsym#1#2{\@@putsym#1#2}
@@ -213,9 +224,6 @@
 
 \unless\ifx\pdfxform\undefined 
     \long\def\pdf@drawing@macro@def#1#2#3#4#5#6{{%
-        %\setbox0=\hbox to \dimexpr#3 * \@font@scale\relax{\hskip\dimexpr#6 * \@font@scale\relax%
-        %\vrule width0pt height0pt depth\dimexpr#5 * \@font@scale\relax%
-        %\vbox to \dimexpr#4 * \@font@scale\relax{\vss\pdf@literal{q \@mathex@trans/ #2 Q}}\hss}%
         \setbox0=\@pdf@drawing@macro@def{#1}{#2}{#3}{#4}{#5}{#6}%
         \pdfxform0%
         \expandafter\xdef\csname @#1@xformno\endcsname{\the\pdflastxform}%
